@@ -1,19 +1,29 @@
 import { Link, NavLink } from "react-router-dom";
-import user from '../../../assets/user.png';
+import userLogo from "../../../assets/user.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../Provider/AuthProvider";
 
 const Navbar = () => {
-    const navLinks=<>
-     <li>
-            <NavLink to='/'>Home</NavLink>
-    </li>
-          
-    <li>
-            <NavLink to='/about'>About</NavLink>
-     </li>
-    <li>
-            <NavLink to='/career'>Career</NavLink>
-     </li>
+  const { user, logOut } = useContext(AuthContext);
+  const handleSignOut=()=>{
+      logOut()
+      .then()
+      .catch()
+  }
+  const navLinks = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/about">About</NavLink>
+      </li>
+      <li>
+        <NavLink to="/career">Career</NavLink>
+      </li>
     </>
+  );
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -38,27 +48,34 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-           {navLinks}
+            {navLinks}
           </ul>
         </div>
-        
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-         {navLinks}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
         <label>
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS Navbar component" src={user} />
-        </div>
-      </div>
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full">
+              <img alt="Tailwind CSS Navbar component" src={userLogo} />
+            </div>
+          </div>
         </label>
-        <Link to='/login'>
-        <button className="btn">Login</button>
+        {
+          user ?
+          <button onClick={handleSignOut} className="btn">Log Out</button>
+          :
+          <Link to="/login">
+          <button className="btn">Login</button>
         </Link>
+        }
+       
       </div>
     </div>
   );
